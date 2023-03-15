@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
 - complete-demo.yaml
-
+- ingress.yaml
