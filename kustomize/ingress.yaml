@@ -1,14 +1,22 @@
+# ---
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: exam-system
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: exam-ingress
+  name: socks-frontend-ingress
+  namespace: sock-shop
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/target-type: instance
     alb.ingress.kubernetes.io/load-balancer-name: my-app-eks
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/group.name: purple
+    alb.ingress.kubernetes.io/group.order: '1'
+    # alb.ingress.kubernetes.io/ssl-redirect: "443"
 spec:
   ingressClassName: alb
   rules:
@@ -22,6 +30,24 @@ spec:
                 name: front-end
                 port:
                   number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dunnu-ingress
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    # alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/load-balancer-name: my-app-eks
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/group.name: purple
+    alb.ingress.kubernetes.io/group.order: '1'
+spec:
+  ingressClassName: alb
+  rules:
     - host: dunnu.codekami.tech
       http:
         paths:
